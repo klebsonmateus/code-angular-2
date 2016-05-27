@@ -1,6 +1,7 @@
-
 <?php
+
 use Illuminate\Database\Seeder;
+
 class OAuthClientSeeder extends Seeder
 {
     /**
@@ -19,5 +20,6 @@ class OAuthClientSeeder extends Seeder
                 'updated_at' =>  '03/02/2016',
             ]
         ]);
+
     }
 }

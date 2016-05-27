@@ -184,7 +184,7 @@ class ProjectController extends Controller
                 return $this->erroMsgm("O usuário não é owner desse projeto");
             }
 
-            $members = $this->repository->find($id)->members()->get();
+            $members = $this->repository->skipPresenter()->find($id)->members()->get();
 
             if (count($members)) {
                 return $members;

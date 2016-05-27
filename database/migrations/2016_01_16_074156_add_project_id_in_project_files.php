@@ -1,6 +1,8 @@
 <?php
+
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+
 class AddProjectIdInProjectFiles extends Migration
 {
     /**
@@ -15,6 +17,7 @@ class AddProjectIdInProjectFiles extends Migration
             $table->foreign('project_id')->references('id')->on('projects');
         });
     }
+
     /**
      * Reverse the migrations.
      *

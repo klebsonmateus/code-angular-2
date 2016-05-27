@@ -61,7 +61,7 @@ class ProjectService
 
     public function addMember($project_id, $member_id)
     {
-        $project = $this->repository->find($project_id);
+        $project = $this->repository->skipPresenter()->find($project_id);
 
         if(!$this->isMember($project_id, $member_id)){
             $project->members()->attach($member_id);
@@ -72,7 +72,7 @@ class ProjectService
 
     public function removeMember($project_id, $member_id)
     {
-        $project = $this->repository->find($project_id);
+        $project = $this->repository->skipPresenter()->find($project_id);
         $project->members()->detach($member_id);
         return $project->members()->get();
     }
