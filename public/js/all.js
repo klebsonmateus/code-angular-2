@@ -492,35 +492,63 @@ f+" > 4096 bytes)!");k.cookie=e}}c.module("ngCookies",["ng"]).provider("$cookies
 })();
 
 !function(e,t){"function"==typeof define&&define.amd?define(["angular","angular-cookies","query-string"],t):"object"==typeof exports?module.exports=t(require("angular"),require("angular-cookies"),require("query-string")):e.angularOAuth2=t(e.angular,"ngCookies",e.queryString)}(this,function(e,t,n){function r(e){e.interceptors.push("oauthInterceptor")}function o(e,t,n){return{request:function(e){return e.headers=e.headers||{},!e.headers.hasOwnProperty("Authorization")&&n.getAuthorizationHeader()&&(e.headers.Authorization=n.getAuthorizationHeader()),e},responseError:function(r){return 400!==r.status||!r.data||"invalid_request"!==r.data.error&&"invalid_grant"!==r.data.error||(n.removeToken(),t.$emit("oauth:error",r)),(401===r.status&&r.data&&"invalid_token"===r.data.error||r.headers("www-authenticate")&&0===r.headers("www-authenticate").indexOf("Bearer"))&&t.$emit("oauth:error",r),e.reject(r)}}}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function a(){var t;this.configure=function(n){if(t)throw new Error("Already configured.");if(!(n instanceof Object))throw new TypeError("Invalid argument: `config` must be an `Object`.");return t=e.extend({},h,n),e.forEach(f,function(e){if(!t[e])throw new Error("Missing parameter: "+e+".")}),"/"===t.baseUrl.substr(-1)&&(t.baseUrl=t.baseUrl.slice(0,-1)),"/"!==t.grantPath[0]&&(t.grantPath="/"+t.grantPath),"/"!==t.revokePath[0]&&(t.revokePath="/"+t.revokePath),t},this.$get=function(r,o){var a=function(){function a(){if(i(this,a),!t)throw new Error("`OAuthProvider` must be configured first.")}return s(a,[{key:"isAuthenticated",value:function(){return!!o.getToken()}},{key:"getAccessToken",value:function(i,a){return i=e.extend({client_id:t.clientId,grant_type:"password"},i),null!==t.clientSecret&&(i.client_secret=t.clientSecret),i=n.stringify(i),a=e.extend({headers:{Authorization:void 0,"Content-Type":"application/x-www-form-urlencoded"}},a),r.post(""+t.baseUrl+t.grantPath,i,a).then(function(e){return o.setToken(e.data),e})}},{key:"getRefreshToken",value:function(i,a){return i=e.extend({client_id:t.clientId,grant_type:"refresh_token",refresh_token:o.getRefreshToken()},i),null!==t.clientSecret&&(i.client_secret=t.clientSecret),i=n.stringify(i),a=e.extend({headers:{Authorization:void 0,"Content-Type":"application/x-www-form-urlencoded"}},a),r.post(""+t.baseUrl+t.grantPath,i,a).then(function(e){return o.setToken(e.data),e})}},{key:"revokeToken",value:function(i,a){var u=o.getRefreshToken();return i=e.extend({client_id:t.clientId,token:u?u:o.getAccessToken(),token_type_hint:u?"refresh_token":"access_token"},i),null!==t.clientSecret&&(i.client_secret=t.clientSecret),i=n.stringify(i),a=e.extend({headers:{"Content-Type":"application/x-www-form-urlencoded"}},a),r.post(""+t.baseUrl+t.revokePath,i,a).then(function(e){return o.removeToken(),e})}}]),a}();return new a},this.$get.$inject=["$http","OAuthToken"]}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function u(){var t={name:"token",options:{secure:!0}};this.configure=function(n){if(!(n instanceof Object))throw new TypeError("Invalid argument: `config` must be an `Object`.");return e.extend(t,n),t},this.$get=function(e){var n=function(){function n(){i(this,n)}return s(n,[{key:"setToken",value:function(n){return e.putObject(t.name,n,t.options)}},{key:"getToken",value:function(){return e.getObject(t.name)}},{key:"getAccessToken",value:function(){return this.getToken()?this.getToken().access_token:void 0}},{key:"getAuthorizationHeader",value:function(){return this.getTokenType()&&this.getAccessToken()?this.getTokenType().charAt(0).toUpperCase()+this.getTokenType().substr(1)+" "+this.getAccessToken():void 0}},{key:"getRefreshToken",value:function(){return this.getToken()?this.getToken().refresh_token:void 0}},{key:"getTokenType",value:function(){return this.getToken()?this.getToken().token_type:void 0}},{key:"removeToken",value:function(){return e.remove(t.name,t.options)}}]),n}();return new n},this.$get.$inject=["$cookies"]}var c=e.module("angular-oauth2",[t]).config(r).factory("oauthInterceptor",o).provider("OAuth",a).provider("OAuthToken",u);r.$inject=["$httpProvider"],o.$inject=["$q","$rootScope","OAuthToken"];var s=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}(),h={baseUrl:null,clientId:null,clientSecret:null,grantPath:"/oauth2/token",revokePath:"/oauth2/revoke"},f=["baseUrl","clientId","grantPath","revokePath"],s=function(){function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}return function(t,n,r){return n&&e(t.prototype,n),r&&e(t,r),t}}();return c});
-var app = angular.module('app',['ngRoute','app.controllers']);
+var app = angular.module('app',['ngRoute', 'angular-oauth2', 'app.controllers']);
 
-angular.module('app.controllers',[]);
+angular.module('app.controllers',['ngMessages', 'angular-oauth2']);
 
-app.config(function($routeProvider){
+app.config(['$routeProvider','OAuthProvider', function($routeProvider,OAuthProvider){
 	$routeProvider
-	.when('/login',{
-		templateUrl: 'build/views/login.html',
-		controller: 'LoginController'
-	})
-	.when('/home',{
-		templateUrl: 'build/views/home.html',
-		controller: 'HomeController'
-	})
-});
+		.when('/login',{
+			templateUrl: 'build/views/login.html',
+			controller: 'LoginController'
+		})
+		.when('/home',{
+			templateUrl: 'build/views/home.html',
+			controller: 'HomeController'
+		})
+	    OAuthProvider.configure({
+	      baseUrl: 'http://localhost:8000',
+	      clientId: 'appid1',
+	      clientSecret: 'secret', // optional
+	      grantPath: 'oauth/access_token'
+	    });
+}]);
+
+app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth) {
+    $rootScope.$on('oauth:error', function(event, rejection) {
+      // Ignore `invalid_grant` error - should be catched on `LoginController`.
+      if ('invalid_grant' === rejection.data.error) {
+        return;
+      }
+
+      // Refresh token when a `invalid_token` error occurs.
+      if ('invalid_token' === rejection.data.error) {
+        return OAuth.getRefreshToken();
+      }
+
+      // Redirect to `/login` with the `error_reason`.
+      return $window.location.href = '/login?error_reason=' + rejection.data.error;
+    });
+  }]);
 angular.module('app.controllers')
 .controller('HomeController', ['$scope', function($scope) {
 
 
 }]);
 angular.module('app.controllers')
-.controller('LoginController', ['$scope', function($scope) {
+.controller('LoginController', ['$scope', '$location' , 'OAuth', 
+	function($scope, $location, OAuth) {
 	$scope.user = {
 		username: '',
 		password: ''
 	};
 
-	$scope.login = function(){
-
+	$scope.login = function() {
+		OAuth.getAccessToken($scope.user).then( function() {
+			$location.path('home');
+		}, function() {
+			alert('Login Inválido');
+		});
 	};
 
 }]);
