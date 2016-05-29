@@ -98,7 +98,7 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            return $this->repository->update($request->all(), $id);
+            return $this->repository->skipPresenter()->update($request->all(), $id);
         }
         catch(ModelNotFoundException $e){
             return $this->erroMsgm('Cliente não encontrado.');
