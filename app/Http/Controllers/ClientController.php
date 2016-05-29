@@ -38,7 +38,7 @@ class ClientController extends Controller
     public function index()
     {
         try{
-            return $this->repository->skipPresenter()->all();
+            return $this->repository->all();
         }catch(\Exception $e){
             return $this->erroMsgm('Ocorreu um erro ao listar os clientes.');
         }
@@ -77,7 +77,7 @@ class ClientController extends Controller
     public function show($id)
     {
         try{
-            return $this->repository->skipPresenter()->find($id);
+            return $this->repository->find($id);
         }
         catch(ModelNotFoundException $e){
             return $this->erroMsgm('Cliente não encontrado.');
@@ -98,7 +98,7 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            return $this->repository->skipPresenter()->update($request->all(), $id);
+            return $this->repository->update($request->all(), $id);
         }
         catch(ModelNotFoundException $e){
             return $this->erroMsgm('Cliente não encontrado.');
@@ -125,7 +125,7 @@ class ClientController extends Controller
     public function destroy($id)
     {
         try{
-            $this->repository->skipPresenter()->find($id)->delete();
+            $this->repository->find($id)->delete();
             return [
                 'success' => true,
                 'message' => "Cliente deletado com sucesso!"
