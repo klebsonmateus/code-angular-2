@@ -14,7 +14,7 @@
 						<tbody>
 							<tr ng-repeat="o in projectNotes">
 								<td>{{o.title}}</td>
-								<td>{{o.note}}</td>
+								<td>{{o.note | limitTo: 25}}...</td>
 								<td>
 									<a ng-href="#/project/{{o.project_id}}/notes/{{o.id}}/edit">
 									Editar

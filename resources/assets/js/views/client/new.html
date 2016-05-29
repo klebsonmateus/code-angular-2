@@ -69,7 +69,10 @@
 						<div class="form-group" ng-class="{'has-error': !form.obs.$valid && form.obs.$touched}">
 							<label class="col-md-4 control-label">Obs</label>
 
-							<textarea name="obs" ng-model="client.obs"></textarea>
+							
+							<div class="col-md-6">
+								<textarea name="obs" ng-model="client.obs"></textarea>	
+							</div>
 						</div>
 
 						<div class="form-group">
