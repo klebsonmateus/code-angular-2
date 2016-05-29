@@ -91,6 +91,7 @@
 		<script src="{{asset('build/js/controllers/client/clientEdit.js')}}"></script>
 		<script src="{{asset('build/js/controllers/client/clientRemove.js')}}"></script>
 
+		<script src="{{asset('build/js/controllers/project-note/projectNoteShow.js')}}"></script>
 		<script src="{{asset('build/js/controllers/project-note/projectNoteList.js')}}"></script>
 		<script src="{{asset('build/js/controllers/project-note/projectNoteNew.js')}}"></script>
 		<script src="{{asset('build/js/controllers/project-note/projectNoteEdit.js')}}"></script>
@@ -98,6 +99,8 @@
 
 		<!-- SERVICES !-->
 		<script src="{{asset('build/js/services/client.js')}}">
+		</script>
+		<script src="{{asset('build/js/services/projectNote.js')}}">
 		</script>
 
 	@else
