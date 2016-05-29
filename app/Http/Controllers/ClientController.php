@@ -38,7 +38,7 @@ class ClientController extends Controller
     public function index()
     {
         try{
-            return $this->repository->all();
+            return $this->repository->skipPresenter()->all();
         }catch(\Exception $e){
             return $this->erroMsgm('Ocorreu um erro ao listar os clientes.');
         }
