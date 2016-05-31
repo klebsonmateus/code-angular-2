@@ -14,17 +14,17 @@ class UserController extends Controller
     /**
      * @var User
      */
-    private $repository;
+    private $user;
 
-    public function __construct(userRepository $repository)
+    public function __construct(User $user)
     {
-        $this->repository = $repository;
+        $this->user = $user;
     }
 
     public function authenticated()
     {
         $userId = Authorizer::getResourceOwnerId();
-        return $this->repository->find($idUser);
+        return $this->user->find($userId);
     }
     /**
      * Display a listing of the resource.

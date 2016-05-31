@@ -3,7 +3,9 @@ angular.module('app.services')
 	function($resource, appConfig) {
 		return $resource(appConfig.baseUrl + '/user' , {},{
 			authenticated: {
+				url: appConfig.baseUrl + '/user/authenticated',
 				method: 'GET'
 			}
+			
 		});
 	}]);
