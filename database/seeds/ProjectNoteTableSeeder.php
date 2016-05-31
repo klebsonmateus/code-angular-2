@@ -7,6 +7,6 @@ class ProjectNoteTableSeeder extends Seeder
     public function run()
     {
         // \CodeProject\Entities\Project::truncate();
-        factory(\CodeProject\Entities\ProjectNote::class, 50)->create();
+        factory(\CodeProject\Entities\ProjectNote::class, 100)->create();
     }
 }
