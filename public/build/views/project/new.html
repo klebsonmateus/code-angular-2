@@ -29,6 +29,20 @@
 							</div>
 						</div>
 
+						<div class="form-group" ng-class="{'has-error': !form.client_id.$valid && form.client_id.$touched}">
+							<label class="col-md-4 control-label">Client</label>
+
+							<div class="col-md-6">
+								<select class="form-control" name="client_id" ng-model="project.client_id"
+								ng-options="o.id as o.name for o in clients" required>
+								<option value=""><-- Selecione o client --></option>	
+								</select>
+								<div ng-messages="form.client_id.$error" class="help-block" ng-show="form.client_id.$touched">
+									<div ng-message="required">Campo obrigatório</div>
+								</div>
+							</div>
+						</div>
+
 						<div class="form-group" ng-class="{'has-error': !form.due_date.$valid && form.due_date.$touched}">
 							<label class="col-md-4 control-label">Due Date</label>
 
@@ -39,6 +53,8 @@
 								</div>
 							</div>
 						</div>
+
+						
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
