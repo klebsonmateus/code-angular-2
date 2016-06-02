@@ -25,7 +25,10 @@
 							<label class="col-md-4 control-label">Note</label>
 
 							<div class="col-md-6">
-								<textarea name="note" ng-model="projectNote.note"></textarea>	
+								<textarea class="form-control" name="note" ng-model="projectNote.note" required></textarea>
+								<div ng-messages="form.note.$error" class="help-block" ng-show="form.note.$touched">
+									<div ng-message="required">Campo obrigatório</div>
+								</div>	
 							</div>
 						</div>
 
