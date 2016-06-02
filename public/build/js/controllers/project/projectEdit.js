@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-	.controller('ProjectNoteEditController', 
+	.controller('ProjectEditController', 
 		['$scope','$routeParams','$location', 'ProjectNote', 
 	function($scope, $routeParams , $location,  ProjectNote) {
 	$scope.projectNote = ProjectNote.get({
