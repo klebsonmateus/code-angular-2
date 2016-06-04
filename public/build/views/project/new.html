@@ -65,9 +65,10 @@
 									</span>
 								</p>
 
-								<!--<input type="date" class="form-control" name="due_date" ng-model="project.due_date" required>-->
+								
 								<div ng-messages="form.due_date.$error" class="help-block" ng-show="form.due_date.$touched">
 									<div ng-message="required">Campo obrigatório</div>
+									<div ng-message="date">Data inválida</div>
 								</div>
 							</div>
 						</div>
