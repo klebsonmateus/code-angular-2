@@ -103,7 +103,7 @@ class ProjectFileController extends Controller
     {
         try {
             if (!$this->service->checkProjectOwner($id)) {
-                return $this->erroMsgm("O usuário não é onwer desse projeto");
+                return $this->erroMsgm("O usuário não é owner desse projeto");
             }
             return $this->service->update($request->all(), $id);
         } catch (ModelNotFoundException $e) {

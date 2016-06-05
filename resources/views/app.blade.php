@@ -105,6 +105,11 @@
 		<script src="{{asset('build/js/controllers/project-note/projectNoteEdit.js')}}"></script>
 		<script src="{{asset('build/js/controllers/project-note/projectNoteRemove.js')}}"></script>
 
+		<script src="{{asset('build/js/controllers/project-file/projectFileList.js')}}"></script>
+		<script src="{{asset('build/js/controllers/project-file/projectFileNew.js')}}"></script>
+		<script src="{{asset('build/js/controllers/project-file/projectFileEdit.js')}}"></script>
+		<script src="{{asset('build/js/controllers/project-file/projectFileRemove.js')}}"></script>
+
 		<!-- FILTERS !-->
 		<script src="{{asset('build/js/filters/date-br.js')}}"></script>
 
