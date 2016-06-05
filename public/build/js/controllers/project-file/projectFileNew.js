@@ -4,7 +4,7 @@ angular.module('app.controllers')
 	function($scope, $location, $routeParams, Upload  ) {
 	
 	$scope.projectFile = {
-		project_id: $routeParams.id;
+		project_id: $routeParams.id
 	};
 
 	$scope.save = function(){
@@ -15,7 +15,7 @@ angular.module('app.controllers')
 				fields: {
 					name: $scope.projectFile.name,
 					description: $scope.projectFile.description
-				}
+				},
 				file: $scope.projectFile.file
 			}).then(function (data, status, headers, config) {
 				$location.path('/project/ ' + $routeParams.id + 'files');
