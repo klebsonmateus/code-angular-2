@@ -2,10 +2,10 @@ angular.module('app.services')
 .service('Url', ['$interpolate',
 	function($interpolate) {
 		return {
-			getUrlFromAngularSymbol: function(url,params){
+			getUrlFromUrlSymbol: function(url,params){
 				var urlMod = $interpolate(url)(params);
 				return urlMod.replace(/\/\//g, '/')
-					.replace(/\/$/, '/');
+					.replace(/\/$/, '');
 				
 			},
 			getUrlResource: function(url) {
