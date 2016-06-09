@@ -9,6 +9,12 @@ angular.module('app.services')
 		},{
 			update: {
 				method: 'PUT'
+			},
+			download: {
+				url: appConfig.baseUrl + 
+					Url.getUrlResource(appConfig.urls.projectFile) +
+					'/download',
+				method: 'GET'
 			}
 		});
 	}]);
