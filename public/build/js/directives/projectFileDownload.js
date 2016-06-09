@@ -8,8 +8,9 @@ angular.module('app.directives')
     	link: function(scope, element, attr){
 
     	},
-    	controller: ['$scope', '$element', '$attrs', 
-    	function($scope,$element, $attrs){
+    	controller: ['$scope', '$element', '$attrs',
+        '$timeout', 
+    	function($scope,$element, $attrs, $timeout){
     		$scope.downloadFile = function(){
     			var anchor = $element.children()[0];
     				$(anchor).addClass('disabled');
@@ -20,9 +21,16 @@ angular.module('app.directives')
                             $(anchor).text('Save File');
                             $(anchor).attr({
                                 href: 'data:application-octet-stream;base64,'+
-                                    data.file,
+                                        data.file,
                                 download: data.name
                             });
+                            $timeout(function(){
+                                $scope.downloadFile=function(){
+
+                                };
+                               $(anchor)[0].click(); 
+                            });
+                            
     					});
     		};
     	}]
