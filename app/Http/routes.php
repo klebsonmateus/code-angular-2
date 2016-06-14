@@ -16,19 +16,11 @@ Route::group(['middleware'=>'oauth'], function(){
 
     Route::resource('client', 'ClientController', ['except'=>['create','edit']]);
 
-    Route::group(['middleware'=>'CheckProjectOwner'], function(){
-        Route::resource('project', 'ProjectController', ['except'=>['create','edit']]);
+    Route::resource('project', 'ProjectController', ['except'=>['create','edit']]);
 
-        Route::get('project/{id}/member', 'ProjectController@members');
-        Route::post('project/{id}/member/{member_id}', 'ProjectController@addMember');
-        Route::delete('project/{id}/member/{member_id}', 'ProjectController@removeMember');
-
-        Route::get('project/{id}/task', 'ProjectController@tasks');
-        Route::post('project/{id}/task', 'ProjectController@addTask');
-        Route::delete('project/{id}/task/{task_id}', 'ProjectController@removeTask');
-    });
 
     Route::group(['middleware' => 'check.project.permission', 'prefix'=>'project'], function(){
+        
         Route::get('{id}/note', 'ProjectNoteController@index');
         Route::post('{id}/note', 'ProjectNoteController@store');
         Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
@@ -43,8 +35,14 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::put('{id}/file/{fileId}', 'ProjectFileController@update');
         Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 
+        Route::get('project/{id}/member', 'ProjectController@members');
+        Route::post('project/{id}/member/{member_id}', 'ProjectController@addMember');
+        Route::delete('project/{id}/member/{member_id}', 'ProjectController@removeMember');
 
-        Route::post('{id}/file', 'ProjectFileController@store');
+        Route::get('project/{id}/task', 'ProjectController@tasks');
+        Route::post('project/{id}/task', 'ProjectController@addTask');
+        Route::delete('project/{id}/task/{task_id}', 'ProjectController@removeTask');
+
     });
 
     Route::get('user/authenticated', 'UserController@authenticated');
