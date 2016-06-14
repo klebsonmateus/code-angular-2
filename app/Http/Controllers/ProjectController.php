@@ -36,8 +36,8 @@ class ProjectController extends Controller
         $this->repository = $repository;
         $this->service = $service;
         $this->taskRepository = $taskRepository;
-        $this->middleware('check.project.owner', ['except' => ['store', 'show', 'index']]);
-        $this->middleware('check.project.member', ['except' => ['store', 'update', 'destroy']]);
+        $this->middleware('check.project.owner', ['except' => ['index', 'store', 'show']]);
+        $this->middleware('check.project.permission', ['except' => ['index','store', 'update', 'destroy']]);
     }
 
     /**
@@ -49,7 +49,7 @@ class ProjectController extends Controller
         {
             try
             {
-                return $this->repository->findWhere(['owner_id'=> \Authorizer::getResourceOwnerId()]);
+                return $this->repository->findWithOwnerAndMember(\Authorizer::getResourceOwnerId());
             }
             catch(NoActiveAccessTokenException $e){
                 return $this->erroMsgm('Usuário não está logado.');
