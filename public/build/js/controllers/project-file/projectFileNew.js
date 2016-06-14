@@ -21,10 +21,11 @@ angular.module('app.controllers')
 					project_id: $routeParams.id
 				},
 				file: $scope.projectFile.file
-			}).then(function (data, status, headers, config) {
-				$location.path('/project/ ' + $routeParams.id + 'files');
+			}).success(function (data, status, headers, config) {
+				$location.path('/project/ ' + $routeParams.id + '/files');
 			});
 		}
 	}
+
 
 }]);
