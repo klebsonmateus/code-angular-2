@@ -5,7 +5,7 @@ angular.module('app.services')
 			Url.getUrlResource(appConfig.urls.projectFile);
 		return $resource(url , {
 			id: '@id',
-			idNote: '@idFile'
+			idFile: '@idFile'
 		},{
 			update: {
 				method: 'PUT'
