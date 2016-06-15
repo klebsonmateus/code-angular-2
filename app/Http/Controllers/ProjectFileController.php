@@ -43,7 +43,7 @@ class ProjectFileController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $file = $request->file('file');
         if (!$file) {
@@ -56,7 +56,7 @@ class ProjectFileController extends Controller
         $data['extension'] = $extension;
         $data['name'] = $request->name;
         $data['description'] = $request->description;
-        $data['project_id'] = $request->project_id;
+        $data['project_id'] = $id;
 
         return $this->service->create($data);
     }
@@ -99,13 +99,18 @@ class ProjectFileController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $fileId)
     {
         try {
             if (!$this->service->checkProjectOwner($id)) {
                 return $this->erroMsgm("O usuário não é owner desse projeto");
             }
-            return $this->service->update($request->all(), $id);
+
+            $data = $request->all();
+            $data['project_id'] = $id;
+            return $this->service->update($data, $fileId);
+
+            //return $this->service->update($request->all(), $id);
         } catch (ModelNotFoundException $e) {
             return $this->erroMsgm('Projeto não encontrado.');
         } catch (NoActiveAccessTokenException $e) {
