@@ -31,9 +31,7 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-
-    public function validator()
-    {
-        return \CodeProject\Validators\ProjectTaskValidator::class;
+    public function presenter(){
+        return ProjectTaskPresenter::class;
     }
 }

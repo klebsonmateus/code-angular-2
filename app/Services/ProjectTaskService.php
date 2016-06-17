@@ -11,11 +11,15 @@ use Prettus\Validator\Exceptions\ValidatorException;
 class ProjectTaskService
 {
     protected $repository;
+    protected $projectRepository
     protected $validator;
 
-    public function __construct(ProjectTaskRepository $repository, ClientValidator $validator)
+    public function __construct(ProjectTaskRepository $repository, 
+                                ProjectRepository $projectRepository,
+                                ProjectTaskValidator $validator)
     {
         $this->repository = $repository;
+        $this->projectRepository = $projectRepository;
         $this->validator = $validator;
     }
 
@@ -23,7 +27,11 @@ class ProjectTaskService
     {
         try{
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->create($data);
+
+            $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
+            $projectTask = $project->tasks()->create($data);
+
+            return $projectTask;
         }
         catch(ValidatorException $e){
             return [
@@ -46,4 +54,11 @@ class ProjectTaskService
             ];
         }
     }
+
+    public function delete($id)
+    {
+        $projectTask = $this->repository->skipPresenter()->find($id);
+        return $projectTask->delete();
+    }
+
 }
