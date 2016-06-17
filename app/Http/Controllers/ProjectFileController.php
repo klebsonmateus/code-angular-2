@@ -1,32 +1,26 @@
 <?php
-
 namespace CodeProject\Http\Controllers;
-
 use CodeProject\Http\Requests;
 use CodeProject\Repositories\ProjectFileRepository;
 use CodeProject\Services\ProjectFileService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use LucaDegasperi\OAuth2Server\Exceptions\NoActiveAccessTokenException;
-
 class ProjectFileController extends Controller
 {
     /**
      * @var ProjectFileRepository
      */
     private $repository;
-
     /**
      * @var ProjectFileService
      */
     private $service;
-
     public function __construct(ProjectFileRepository $repository, ProjectFileService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -36,62 +30,64 @@ class ProjectFileController extends Controller
     {
         return $this->repository->findWhere(['project_id' => $id]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
         $file = $request->file('file');
         if (!$file) {
             return $this->erroMsgm("O arquivo é obrigatório!");
         }
-
         $extension = $file->getClientOriginalExtension();
-
         $data['file'] = $file;
         $data['extension'] = $extension;
         $data['name'] = $request->name;
         $data['description'] = $request->description;
-        $data['project_id'] = $id;
-
+        $data['project_id'] = $request->project_id;
         return $this->service->create($data);
     }
-
     /**
      * Display the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $fileId)
     {
-        if ($this->service->checkProjectPermissions($id) == false) {
-            return $this->erroMsgm("O usuário não tem acesso a esse projeto");
-        }
 
-        return $this->repository->find($id);
+        $result = $this->repository->findWhere(['project_id'=>$id, 'id'=>$fileId]);
+        if(isset($result['data']) && count($result['data'])==1) {
+            $result = [
+                'data' => $result['data'][0]
+            ];
+        }
+        return $result;
+
+        //return $this->repository->find($fileId);
     }
-
-    public function showFile($id)
+    public function showFile($id, $fileId)
     {
-        if ($this->service->checkProjectPermissions($id) == false) {
-            return $this->erroMsgm("O usuário não tem acesso a esse projeto");
+
+        $result = $this->repository->findWhere(['project_id'=>$id, 'id'=>$fileId]);
+        if(isset($result['data']) && count($result['data'])==1) {
+            $result = [
+                'data' => $result['data'][0]
+            ];
         }
-        $filePath = $this->service->getFilePath($id);
+
+        $filePath = $this->service->getFilePath($result['id']);
         $fileContent = file_get_contents($filePath);
         $file64 = base64_encode($fileContent);
         return [
             'file' => $file64,
             'size' => filesize($filePath),
-            'name' => $this->service->getFileName($id)
+            'name' => $this->service->getFileName($result['id'])
         ];
     }
-
-
     /**
      * Update the specified resource in storage.
      *
@@ -102,15 +98,12 @@ class ProjectFileController extends Controller
     public function update(Request $request, $id, $fileId)
     {
         try {
-            if (!$this->service->checkProjectOwner($id)) {
-                return $this->erroMsgm("O usuário não é owner desse projeto");
-            }
 
-            $data = $request->all();
-            $data['project_id'] = $id;
-            return $this->service->update($data, $fileId);
+        $data = $request->all();
+        $data['project_id'] = $id;
+        return $this->service->update($data, $fileId);
 
-            //return $this->service->update($request->all(), $id);
+            //return $this->service->update($request->all(), $fileId);
         } catch (ModelNotFoundException $e) {
             return $this->erroMsgm('Projeto não encontrado.');
         } catch (NoActiveAccessTokenException $e) {
@@ -119,23 +112,26 @@ class ProjectFileController extends Controller
             return $this->erroMsgm('Ocorreu um erro ao atualizar o projeto.');
         }
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $fileId)
     {
-        if (!$this->service->checkProjectOwner($id)) {
-            return $this->erroMsgm("O usuário não é owner desse projeto");
-        }
 
+        if($this->repository->skipPresenter()->find($fileId)->delete()){
+            return ['success'=>true, 'message'=>'Arquivo '.$fileId.' excluído com sucesso!'];
+        }
+        return ['error'=>true, 'message'=>'Não foi possível excluir o arquivo '.$fileId];
+
+
+        /*
         $this->service->delete($id);
         return ['error'=>false,'Arquivo deletado com sucesso'];
+        */
     }
-
     private function erroMsgm($mensagem)
     {
         return [
