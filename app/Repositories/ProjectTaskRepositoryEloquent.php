@@ -2,6 +2,7 @@
 
 namespace CodeProject\Repositories;
 
+use CodeProject\Presenters\ProjectTaskPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use CodeProject\Repositories\ProjectTaskRepository;
@@ -28,7 +29,7 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
      */
     public function boot()
     {
-        $this->pushCriteria(app(RequestCriteria::class));
+        $this->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
     }
 
     public function presenter(){

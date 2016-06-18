@@ -4,7 +4,6 @@ namespace CodeProject\Http\Controllers;
 
 use CodeProject\Http\Requests;
 use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Repositories\ProjectTaskRepository;
 use CodeProject\Services\ProjectService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -20,10 +19,6 @@ class ProjectController extends Controller
      */
     private $repository;
 
-    /**
-     * @var ProjectTaskRepository
-     */
-    private $taskRepository;
 
     /**
      * @var ProjectService
@@ -31,11 +26,10 @@ class ProjectController extends Controller
     private $service;
 
 
-    public function __construct(ProjectRepository $repository, ProjectService $service, ProjectTaskRepository $taskRepository)
+    public function __construct(ProjectRepository $repository, ProjectService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
-        $this->taskRepository = $taskRepository;
         $this->middleware('check.project.owner', ['except' => ['index', 'store', 'show']]);
         $this->middleware('check.project.permission', ['except' => ['index','store', 'update', 'destroy']]);
     }

@@ -4,14 +4,16 @@ namespace CodeProject\Services;
 
 
 use CodeProject\Repositories\ClientRepository;
+use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Repositories\ProjectTaskRepository;
+use CodeProject\Validators\ProjectTaskValidator;
 use CodeProject\Validators\ClientValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectTaskService
 {
     protected $repository;
-    protected $projectRepository
+    protected $projectRepository;
     protected $validator;
 
     public function __construct(ProjectTaskRepository $repository, 

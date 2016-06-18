@@ -147,7 +147,7 @@ app.config([
 			templateUrl: 'build/views/project-task/edit.html',
 			controller: 'ProjectTaskEditController'
 		})
-		.when('/project/:id/task/remove',{
+		.when('/project/:id/task/:idTask/remove',{
 			templateUrl: 'build/views/project-task/remove.html',
 			controller: 'ProjectTaskRemoveController'
 		})
