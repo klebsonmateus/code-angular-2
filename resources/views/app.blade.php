@@ -110,6 +110,11 @@
 		<script src="{{asset('build/js/controllers/project-file/projectFileEdit.js')}}"></script>
 		<script src="{{asset('build/js/controllers/project-file/projectFileRemove.js')}}"></script>
 
+		<script src="{{asset('build/js/controllers/project-task/projectTaskList.js')}}"></script>
+		<script src="{{asset('build/js/controllers/project-task/projectTaskNew.js')}}"></script>
+		<script src="{{asset('build/js/controllers/project-task/projectTaskEdit.js')}}"></script>
+		<script src="{{asset('build/js/controllers/project-task/projectTaskRemove.js')}}"></script>
+
 		<!-- DIRECTIVES !-->
 		<script src="{{asset('build/js/directives/projectFileDownload.js')}}"></script>
 
