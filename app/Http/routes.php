@@ -39,9 +39,11 @@ Route::group(['middleware'=>'oauth'], function(){
         Route::post('project/{id}/member/{member_id}', 'ProjectController@addMember');
         Route::delete('project/{id}/member/{member_id}', 'ProjectController@removeMember');
 
-        Route::get('project/{id}/task', 'ProjectController@tasks');
-        Route::post('project/{id}/task', 'ProjectController@addTask');
-        Route::delete('project/{id}/task/{task_id}', 'ProjectController@removeTask');
+        Route::get('{id}/task', 'ProjectTaskController@index');
+        Route::get('{id}/task/{taskId}', 'ProjectTaskController@show');
+        Route::post('{id}/task', 'ProjectTaskController@store');
+        Route::put('{id}/task/{taskId}', 'ProjectTaskController@update');
+        Route::delete('{id}/task/{taskId}', 'ProjectTaskController@destroy');
 
     });
 

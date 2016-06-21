@@ -4,7 +4,6 @@ namespace CodeProject\Http\Controllers;
 
 use CodeProject\Http\Requests;
 use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Repositories\ProjectTaskRepository;
 use CodeProject\Services\ProjectService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -31,11 +30,10 @@ class ProjectController extends Controller
     private $service;
 
 
-    public function __construct(ProjectRepository $repository, ProjectService $service, ProjectTaskRepository $taskRepository)
+    public function __construct(ProjectRepository $repository, ProjectService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
-        $this->taskRepository = $taskRepository;
         $this->middleware('check.project.owner', ['except' => ['index', 'store', 'show']]);
         $this->middleware('check.project.permission', ['except' => ['index','store', 'update', 'destroy']]);
     }
@@ -235,62 +233,6 @@ class ProjectController extends Controller
         }
     }
 
-    public function tasks($id)
-    {
-        try {
-
-            if(!$this->service->checkProjectOwner($id)){
-                return $this->erroMsgm("O usuário não é owner desse projeto");
-            }
-            $tasks = $this->taskRepository->find(['project_id' => $id]);
-
-            if (count($tasks)) {
-                return $tasks;
-            }
-            return $this->erroMsgm('Esse projeto ainda não tem tarefas.');
-
-        } catch (ModelNotFoundException $e) {
-            return $this->erroMsgm('Projeto não encontrado.');
-        } catch (QueryException $e) {
-            return $this->erroMsgm('Tarefa não encontrada.');
-        } catch (\Exception $e) {
-            return $this->erroMsgm('Ocorreu um erro ao exibir as tarefas do projeto.');
-        }
-    }
-
-    public function addTask(Request $request)
-    {
-        try {
-            return $this->taskRepository->create($request->all());
-        } catch (ValidatorException $e) {
-            $error = $e->getMessageBag();
-            return [
-                'error' => true,
-                'message' => "Erro ao cadastrar a tarefa, alguns campos são obrigatórios!",
-                'messages' => $error->getMessages(),
-            ];
-        } catch (\Exception $e) {
-            return $this->erroMsgm('Ocorreu um erro ao cadastrar a tarefa.');
-        }
-    }
-
-    public function removeTask($project_id, $task_id)
-    {
-        try {
-
-            if(!$this->service->checkProjectOwner($project_id)){
-                return $this->erroMsgm("O usuário não é owner desse projeto");
-            }
-            $this->taskRepository->find($task_id)->delete();
-            return ['success'=>true, 'message'=>'Tarefa deletada com sucesso!'];
-        } catch (QueryException $e) {
-            return $this->erroMsgm('Tarefa não pode ser apagado pois existe um projeto vinculado a ela.');
-        } catch (ModelNotFoundException $e) {
-            return $this->erroMsgm('Tarefa não encontrada.');
-        } catch (\Exception $e) {
-            return $this->erroMsgm('Ocorreu um erro ao excluir a tarefa.');
-        }
-    }
 
     private function erroMsgm($mensagem)
     {
