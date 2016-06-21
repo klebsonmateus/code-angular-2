@@ -21,6 +21,12 @@ app.provider('appConfig',
 			{value: 3, label: 'Concluído'},
 			]
 		},
+		projectTask: {
+			status: [
+				{value: 1, label: 'Incompleta'},
+				{value: 2, label: 'Completa'}
+			]
+		},
 		urls: {
 			projectFile: '/project/{{id}}/file/{{idFile}}'
 		},
@@ -81,15 +87,15 @@ app.config([
 			templateUrl: 'build/views/client/list.html',
 			controller: 'ClientListController'
 		})
-		.when('/clients/new',{
+		.when('/client/new',{
 			templateUrl: 'build/views/client/new.html',
 			controller: 'ClientNewController'
 		})
-		.when('/clients/:id/edit',{
+		.when('/client/:id/edit',{
 			templateUrl: 'build/views/client/edit.html',
 			controller: 'ClientEditController'
 		})
-		.when('/clients/:id/remove',{
+		.when('/client/:id/remove',{
 			templateUrl: 'build/views/client/remove.html',
 			controller: 'ClientRemoveController'
 		})
@@ -97,11 +103,11 @@ app.config([
 			templateUrl: 'build/views/project/list.html',
 			controller: 'ProjectListController'
 		})
-		.when('/projects/new',{
+		.when('/project/new',{
 			templateUrl: 'build/views/project/new.html',
 			controller: 'ProjectNewController'
 		})
-		.when('/projects/:id/edit',{
+		.when('/project/:id/edit',{
 			templateUrl: 'build/views/project/edit.html',
 			controller: 'ProjectEditController'
 		})
@@ -113,35 +119,51 @@ app.config([
 			templateUrl: 'build/views/project-note/list.html',
 			controller: 'ProjectNoteListController'
 		})
-		.when('/project/:id/notes/:idNote/show',{
+		.when('/project/:id/note/:idNote/show',{
 			templateUrl: 'build/views/project-note/show.html',
 			controller: 'ProjectNoteShowController'
 		})
-		.when('/project/:id/notes/new',{
+		.when('/project/:id/note/new',{
 			templateUrl: 'build/views/project-note/new.html',
 			controller: 'ProjectNoteNewController'
 		})
-		.when('/project/:id/notes/:idNote/edit',{
+		.when('/project/:id/note/:idNote/edit',{
 			templateUrl: 'build/views/project-note/edit.html',
 			controller: 'ProjectNoteEditController'
 		})
-		.when('/project/:id/notes/:idNote/remove',{
+		.when('/project/:id/note/:idNote/remove',{
 			templateUrl: 'build/views/project-note/remove.html',
 			controller: 'ProjectNoteRemoveController'
+		})
+		.when('/project/:id/tasks',{
+			templateUrl: 'build/views/project-task/list.html',
+			controller: 'ProjectTaskListController'
+		})
+		.when('/project/:id/task/new',{
+			templateUrl: 'build/views/project-task/new.html',
+			controller: 'ProjectTaskNewController'
+		})
+		.when('/project/:id/task/:taskId/edit',{
+			templateUrl: 'build/views/project-task/edit.html',
+			controller: 'ProjectTaskEditController'
+		})
+		.when('/project/:id/task/:taskId/remove',{
+			templateUrl: 'build/views/project-task/remove.html',
+			controller: 'ProjectTaskRemoveController'
 		})
 		.when('/project/:id/files',{
 			templateUrl: 'build/views/project-file/list.html',
 			controller: 'ProjectFileListController'
 		})
-		.when('/project/:id/files/new',{
+		.when('/project/:id/file/new',{
 			templateUrl: 'build/views/project-file/new.html',
 			controller: 'ProjectFileNewController'
 		})
-		.when('/project/:id/files/:idFile/edit',{
+		.when('/project/:id/file/:idFile/edit',{
 			templateUrl: 'build/views/project-file/edit.html',
 			controller: 'ProjectFileEditController'
 		})
-		.when('/project/:id/files/:idFile/remove',{
+		.when('/project/:id/file/:idFile/remove',{
 			templateUrl: 'build/views/project-file/remove.html',
 			controller: 'ProjectFileRemoveController'
 		});
