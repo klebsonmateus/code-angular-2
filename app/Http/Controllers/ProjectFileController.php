@@ -62,30 +62,22 @@ class ProjectFileController extends Controller
         $result = $this->repository->findWhere(['project_id'=>$id, 'id'=>$fileId]);
         if(isset($result['data']) && count($result['data'])==1) {
             $result = [
-                'data' => $result['data'][0]
+            'data' => $result['data'][0]
             ];
         }
         return $result;
 
         //return $this->repository->find($fileId);
     }
-    public function showFile($id, $fileId)
+    public function showFile($projectId, $id)
     {
-
-        $result = $this->repository->findWhere(['project_id'=>$id, 'id'=>$fileId]);
-        if(isset($result['data']) && count($result['data'])==1) {
-            $result = [
-                'data' => $result['data'][0]
-            ];
-        }
-
-        $filePath = $this->service->getFilePath($result['id']);
+        $filePath = $this->service->getFilePath($id);
         $fileContent = file_get_contents($filePath);
         $file64 = base64_encode($fileContent);
         return [
-            'file' => $file64,
-            'size' => filesize($filePath),
-            'name' => $this->service->getFileName($result['id'])
+        'file' => $file64,
+        'size' => filesize($filePath),
+        'name' => $this->service->getFileName($id)
         ];
     }
     /**
@@ -99,9 +91,9 @@ class ProjectFileController extends Controller
     {
         try {
 
-        $data = $request->all();
-        $data['project_id'] = $id;
-        return $this->service->update($data, $fileId);
+            $data = $request->all();
+            $data['project_id'] = $id;
+            return $this->service->update($data, $fileId);
 
             //return $this->service->update($request->all(), $fileId);
         } catch (ModelNotFoundException $e) {
@@ -135,8 +127,8 @@ class ProjectFileController extends Controller
     private function erroMsgm($mensagem)
     {
         return [
-            'error' => true,
-            'message' => $mensagem,
+        'error' => true,
+        'message' => $mensagem,
         ];
     }
 }
