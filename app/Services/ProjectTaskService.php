@@ -3,9 +3,10 @@
 namespace CodeProject\Services;
 
 
-use CodeProject\Repositories\ClientRepository;
+
 use CodeProject\Repositories\ProjectTaskRepository;
-use CodeProject\Validators\ClientValidator;
+use CodeProject\Validators\ProjectTaskValidator;
+use CodeProject\Repositories\ProjectRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectTaskService

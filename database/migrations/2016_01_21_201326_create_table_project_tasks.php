@@ -18,7 +18,7 @@ class CreateTableProjectTasks extends Migration
             $table->foreign('project_id')->references('id')->on('projects');
             $table->string('name');
             $table->date('start_date')->nullable();
-            $table->date('due_date')nullable();
+            $table->date('due_date')->nullable();
             $table->smallInteger('status')->unsigned()->default(0);
             $table->timestamps();
         });
