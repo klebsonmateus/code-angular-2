@@ -18,7 +18,7 @@ class ProjectTaskService
     public function __construct(ProjectTaskRepository $repository, ProjectRepository $projectRepository, ProjectTaskValidator $validator)
     {
         $this->repository = $repository;
-        $this->repository = $projectRepository;
+        $this->projectRepository = $projectRepository;
         $this->validator = $validator;
     }
 

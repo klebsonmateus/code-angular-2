@@ -18,7 +18,7 @@ angular.module('app.controllers')
 		$scope.projectTasks = ProjectTask.query({
 			id: $routeParams.id,
 			orderBy: 'id',
-			sorteBy: 'desc'
+			sortedBy: 'desc'
 		});
 	};
 
