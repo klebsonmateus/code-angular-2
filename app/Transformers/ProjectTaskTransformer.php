@@ -10,7 +10,7 @@ class ProjectTaskTransformer extends TransformerAbstract
     public function transform(ProjectTask $task)
     {
         return [
-            'name' => $task->name,
+        	'name' => $task->name,
             'start_date' => $task->start_date,
             'due_date' => $task->due_date,
             'status' => $task->status,
