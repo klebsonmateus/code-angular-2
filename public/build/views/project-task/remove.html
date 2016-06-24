@@ -2,12 +2,14 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
-				<div class="panel-heading">Exclusão de Nota de Projeto</div>
+				<div class="panel-heading">Exclusão de tarefa</div>
 				<div class="panel-body">
-					<p>Deseja realmente excluir esta nota de projeto?</p>
+					<p>Deseja realmente excluir esta tarefa?</p>
 					<ul>
-						<li><strong>Title:</strong>{{projectNote.title}}</li>
-						<li><strong>Note:</strong>{{projectNote.note}}</li>
+						<li><strong>Name:</strong>{{projectTask.name}}</li>
+						<li><strong>Start Date:</strong>{{projectTask.start_date | dateBr}}</li>
+						<li><strong>Due Date:</strong>{{projectTask.due_date | dateBr}}</li>
+						<li><strong>Status:</strong>{{projectTask.status}}</li>
 					</ul>
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-4">
