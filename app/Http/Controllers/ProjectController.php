@@ -20,11 +20,6 @@ class ProjectController extends Controller
     private $repository;
 
     /**
-     * @var ProjectTaskRepository
-     */
-    private $taskRepository;
-
-    /**
      * @var ProjectService
      */
     private $service;
@@ -172,64 +167,6 @@ class ProjectController extends Controller
         }
         catch(\Exception $e){
             return $this->erroMsgm('Ocorreu um erro ao excluir o projeto.');
-        }
-    }
-
-
-    public function members($id)
-    {
-        try {
-
-            if(!$this->service->checkProjectOwner($id)){
-                return $this->erroMsgm("O usuário não é owner desse projeto");
-            }
-
-            $members = $this->repository->skipPresenter()->find($id)->members()->get();
-
-            if (count($members)) {
-                return $members;
-            }
-            return $this->erroMsgm('Esse projeto ainda não tem membros.');
-
-        } catch (ModelNotFoundException $e) {
-            return $this->erroMsgm('Projeto não encontrado.');
-        } catch (QueryException $e) {
-            return $this->erroMsgm('Cliente não encontrado.');
-        } catch (\Exception $e) {
-            return $this->erroMsgm('Ocorreu um erro ao exibir os membros do projeto.');
-        }
-
-    }
-
-    public function addMember($project_id, $member_id)
-    {
-        try {
-            if(!$this->service->checkProjectOwner($project_id)){
-                return $this->erroMsgm("O usuário não é owner desse projeto");
-            }
-            return $this->service->addMember($project_id, $member_id);
-        } catch (ModelNotFoundException $e) {
-            return $this->erroMsgm('Projeto não encontrado.');
-        } catch (QueryException $e) {
-            return $this->erroMsgm('Cliente não encontrado.');
-        } catch (\Exception $e) {
-            return $this->erroMsgm('Ocorreu um erro ao inserir o membro.');
-        }
-    }
-
-    public function removeMember($project_id, $member_id)
-    {
-        try {
-            if(!$this->service->checkProjectOwner($project_id)){
-                return $this->erroMsgm("O usuário não é owner desse projeto");
-            }
-            return $this->service->removeMember($project_id, $member_id);
-        } catch (ModelNotFoundException $e) {
-            return $this->erroMsgm('Projeto não encontrado.');
-        } catch (QueryException $e) {
-            return $this->erroMsgm('Cliente não encontrado.');
-        } catch (\Exception $e) {
-            return $this->erroMsgm('Ocorreu um erro ao remover o membro.');
         }
     }
 
