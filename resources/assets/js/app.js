@@ -166,6 +166,14 @@ app.config([
 		.when('/project/:id/file/:idFile/remove',{
 			templateUrl: 'build/views/project-file/remove.html',
 			controller: 'ProjectFileRemoveController'
+		})
+		.when('/project/:id/members',{
+			templateUrl: 'build/views/project-member/list.html',
+			controller: 'ProjectMemberListController'
+		})
+		.when('/project/:id/member/:idProjectMember/remove',{
+			templateUrl: 'build/views/project-member/remove.html',
+			controller: 'ProjectMemberRemoveController'
 		});
 
 	    OAuthProvider.configure({

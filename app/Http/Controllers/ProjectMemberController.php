@@ -7,7 +7,7 @@ use CodeProject\Repositories\ProjectMemberRepository;
 use CodeProject\Services\ProjectMemberService;
 use Illuminate\Http\Request;
 
-class ProjectNoteController extends Controller
+class ProjectMemberController extends Controller
 {
     private $repository;
 
