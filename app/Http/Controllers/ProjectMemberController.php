@@ -13,7 +13,7 @@ class ProjectMemberController extends Controller
 
     private $service;
 
-    public function _construct(ProjectMemberRepository $repository, ProjectMemberService $service)
+    public function __construct(ProjectMemberRepository $repository, ProjectMemberService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
