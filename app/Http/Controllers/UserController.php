@@ -1,30 +1,25 @@
 <?php
-
 namespace CodeProject\Http\Controllers;
-
 use CodeProject\Entities\User;
+use CodeProject\Repositories\UserRepository;
 use Illuminate\Http\Request;
-
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
-
 class UserController extends Controller
 {
     /**
-     * @var User
+     * @var UserRepository
      */
-    private $user;
-
-    public function __construct(User $user)
+    private $repository;
+    public function __construct(UserRepository $repository)
     {
-        $this->user = $user;
+        $this->repository = $repository;
     }
-
     public function authenticated()
     {
-        $userId = Authorizer::getResourceOwnerId();
-        return $this->user->find($userId);
+        $idUser = Authorizer::getResourceOwnerId();
+        return $this->repository->find($idUser);
     }
     /**
      * Display a listing of the resource.
@@ -33,19 +28,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return $this->repository->all();
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -56,7 +40,6 @@ class UserController extends Controller
     {
         //
     }
-
     /**
      * Display the specified resource.
      *
@@ -67,18 +50,6 @@ class UserController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -90,7 +61,6 @@ class UserController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

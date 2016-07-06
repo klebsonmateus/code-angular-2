@@ -8,7 +8,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  * Interface ProjectNoteRepository
  * @package namespace CodeProject\Repositories;
  */
-interface UserrRepository extends RepositoryInterface
+interface UserRepository extends RepositoryInterface
 {
     //
 }
