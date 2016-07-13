@@ -6,13 +6,6 @@ angular.module('app.controllers')
 		$scope.project = data;
 		$scope.clientSelected = data.client.data;
 	});
-
-	for(var i=0; i<10;i++){
-		Client.query({},function(){
-			console.log("sucesso em client");
-		});
-	}
-
 	$scope.status = appConfig.project.status;
 
 	$scope.due_date = {
