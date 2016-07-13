@@ -211,13 +211,25 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
         return;
       }
 
+      /*
+      Token: bDo710iySDXHsp8JxKGfBfoy2TWONOf7ypCl70zG
+      */
+
       // Refresh token when a `invalid_token` error occurs.
       if ('access_denied' === data.rejection.data.error) {
-        return OAuth.getRefreshToken().then(function(response) {
-        	return $http(data.rejection.config).then(function(response){
-        		return data.deferred.resolve(response);
-        	})
-        });
+      	if(!$rootScope.isRefreshingToken) {
+	      	$rootScope.isRefreshingToken = true;
+	        return OAuth.getRefreshToken().then(function(response) {
+	        	$rootScope.isRefreshingToken = false;
+	        	return $http(data.rejection.config).then(function(response){
+	        		return data.deferred.resolve(response);
+	        	});
+	        });
+	    }else{
+	    	return $http(data.rejection.config).then(function(response){
+	        		return data.deferred.resolve(response);
+	        });
+	    }
       }
 
       // Redirect to `/login` with the `error_reason`.
