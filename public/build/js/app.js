@@ -213,8 +213,8 @@ app.run(['$rootScope', '$location', '$http', 'OAuth', function($rootScope, $loca
 
       // Refresh token when a `invalid_token` error occurs.
       if ('access_denied' === data.rejection.data.error) {
-        return OAuth.getRefreshToken().then(function(data) {
-        	$http(data.rejection.config).then(function(response){
+        return OAuth.getRefreshToken().then(function(response) {
+        	return $http(data.rejection.config).then(function(response){
         		return data.deferred.resolve(response);
         	})
         });
