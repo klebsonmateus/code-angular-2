@@ -228,8 +228,10 @@ app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
 	      		templateUrl: 'build/views/templates/loginModal.html',
 	      		controller: 'LoginModalController'
 	      	});
-	      	$rootScope.loginModalOpened
+	      	$rootScope.loginModalOpened = true;
+
 	    }
+	    return;
       }
 
       // Redirect to `/login` with the `error_reason`.

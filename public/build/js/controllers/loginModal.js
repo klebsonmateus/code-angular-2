@@ -1,6 +1,6 @@
 angular.module('app.controllers')
-.controller('LoginModalController', ['$scope', '$location' ,'$cookies','$modalInstance', 'authService', 'User',  'OAuth', 
-	function ($scope, $location, $cookies, $modalInstance, authService, User, OAuth) {
+.controller('LoginModalController', ['$rootScope', '$scope', '$location' ,'$cookies','$modalInstance', 'authService', 'User',  'OAuth', 
+	function ($rootScope, $scope, $location, $cookies, $modalInstance, authService, User, OAuth) {
 	$scope.user = {
 		username: '',
 		password: ''
