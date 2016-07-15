@@ -42,7 +42,7 @@ class ProjectController extends Controller
         {
             try
             {
-                return $this->repository->findWithOwnerAndMember(\Authorizer::getResourceOwnerId());
+                return $this->repository->findOwner(\Authorizer::getResourceOwnerId());
             }
             catch(NoActiveAccessTokenException $e){
                 return $this->erroMsgm('Usuário não está logado.');
