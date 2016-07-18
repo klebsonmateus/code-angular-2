@@ -7,7 +7,7 @@ angular.module('app.directives')
 					scope.$watch(function () {
 						return $location.path();
 					}, function (newValue) {
-						var liElements = element[0].querySelectorAll('li[data-match-route');
+						var liElements = element[0].querySelectorAll('li[data-match-route]');
 						angular.forEach(liElements, function (li) {
 							var liElement = angular.element(li);
 							var pattern = liElement.attr('data-match-route').replace('/', '\\/');

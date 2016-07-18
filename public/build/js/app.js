@@ -3,7 +3,7 @@ var app = angular.module('app',[
 	'app.services', 'app.filters', 'app.directives',
 	'ui.bootstrap.typeahead', 'ui.bootstrap.datepicker', 
 	'ui.bootstrap.tpls', 'ui.bootstrap.modal', 'ngFileUpload', 'http-auth-interceptor',
-	'angularUtils.directives.dirPagination', 'mgcrea.ngStrap.navbar','ui.bootstrap.dropdown'
+	'angularUtils.directives.dirPagination', 'ui.bootstrap.dropdown'
 	]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -216,9 +216,7 @@ app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
       	return;
       }
 
-      /*
-      Token: bDo710iySDXHsp8JxKGfBfoy2TWONOf7ypCl70zG
-      */
+     
 
       // Refresh token when a `invalid_token` error occurs.
       if ('access_denied' === data.rejection.data.error) {
