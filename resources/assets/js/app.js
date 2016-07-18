@@ -94,19 +94,23 @@ app.config([
 		})
 		.when('/clients',{
 			templateUrl: 'build/views/client/list.html',
-			controller: 'ClientListController'
+			controller: 'ClientListController',
+			title: 'Clients'
 		})
 		.when('/client/new',{
 			templateUrl: 'build/views/client/new.html',
-			controller: 'ClientNewController'
+			controller: 'ClientNewController',
+			title: 'Clients'
 		})
 		.when('/client/:id/edit',{
 			templateUrl: 'build/views/client/edit.html',
-			controller: 'ClientEditController'
+			controller: 'ClientEditController',
+			title: 'Clients'
 		})
 		.when('/client/:id/remove',{
 			templateUrl: 'build/views/client/remove.html',
-			controller: 'ClientRemoveController'
+			controller: 'ClientRemoveController',
+			title: 'Clients'
 		})
 		.when('/projects',{
 			templateUrl: 'build/views/project/list.html',
@@ -210,6 +214,11 @@ app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
 				}
 			}
 		});
+
+		$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+			$rootScope.pageTitle = current.$$route.title;
+		});
+
 		$rootScope.$on('oauth:error', function(event, data) {
       // Ignore `invalid_grant` error - should be catched on `LoginController`.
       if ('invalid_grant' === data.rejection.data.error) {
