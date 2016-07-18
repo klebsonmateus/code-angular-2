@@ -13,42 +13,42 @@ angular.module('app.services', ['ngResource']);
 
 app.provider('appConfig', 
 	['$httpParamSerializerProvider',function($httpParamSerializerProvider){
-	var config = {
-		baseUrl: 'http://localhost:8000',
-		project: {
-			status: [
-			{value: 1, label: 'Não iniciado'},
-			{value: 2, label: 'Iniciado'},
-			{value: 3, label: 'Concluído'},
-			]
-		},
-		projectTask: {
-			status: [
+		var config = {
+			baseUrl: 'http://localhost:8000',
+			project: {
+				status: [
+				{value: 1, label: 'Não iniciado'},
+				{value: 2, label: 'Iniciado'},
+				{value: 3, label: 'Concluído'},
+				]
+			},
+			projectTask: {
+				status: [
 				{value: 1, label: 'Incompleta'},
 				{value: 2, label: 'Completa'}
-			]
-		},
-		urls: {
-			projectFile: '/project/{{id}}/file/{{idFile}}'
-		},
-		utils: {
-			transformRequest: function(data){
-				if(angular.isObject(data)){
-					return $httpParamSerializerProvider.$get()(data);
-				}
-				return data;
+				]
 			},
-			transformResponse: function(data, headers){
-				var headersGetter = headers();
+			urls: {
+				projectFile: '/project/{{id}}/file/{{idFile}}'
+			},
+			utils: {
+				transformRequest: function(data){
+					if(angular.isObject(data)){
+						return $httpParamSerializerProvider.$get()(data);
+					}
+					return data;
+				},
+				transformResponse: function(data, headers){
+					var headersGetter = headers();
 					if(headersGetter['content-type'] == 'application/json' ||
 						headersGetter['content-type'] == 'text/json') {
 						var dataJson = JSON.parse(data);
-						if(dataJson.hasOwnProperty('data') && Object.keys(dataJson).length ==1){
-							dataJson = dataJson.data;
-						}
-						return dataJson;
+					if(dataJson.hasOwnProperty('data') && Object.keys(dataJson).length ==1){
+						dataJson = dataJson.data;
 					}
-					return data;
+					return dataJson;
+				}
+				return data;
 			}
 		}
 	};
@@ -63,19 +63,22 @@ app.provider('appConfig',
 
 app.config([
 	'$routeProvider','$httpProvider', 'OAuthProvider', 
-	'OAuthTokenProvider', 'appConfigProvider',
+	'OAuthTokenProvider', 'appConfigProvider', '$navbarProvider',
 	function($routeProvider, $httpProvider, 
-		OAuthProvider, OAuthTokenProvider, appConfigProvider){
-	$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-	$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-	$httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
-	$httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
+		OAuthProvider, OAuthTokenProvider, appConfigProvider, $navbarProvider){
+		angular.extend($navbarProvider.defaults, {
+			activeClass: 'actived'
+		});
+		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+		$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+		$httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
+		$httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
 
-	$httpProvider.interceptors.splice(0,1);
-	$httpProvider.interceptors.splice(0,1);
-	$httpProvider.interceptors.push('oauthFixInterceptor');
+		$httpProvider.interceptors.splice(0,1);
+		$httpProvider.interceptors.splice(0,1);
+		$httpProvider.interceptors.push('oauthFixInterceptor');
 
-	$routeProvider
+		$routeProvider
 		.when('/login',{
 			templateUrl: 'build/views/login.html',
 			controller: 'LoginController'
@@ -185,35 +188,35 @@ app.config([
 			controller: 'ProjectMemberRemoveController'
 		});
 
-	    OAuthProvider.configure({
-	      baseUrl: appConfigProvider.config.baseUrl,
-	      clientId: 'appid1',
+		OAuthProvider.configure({
+			baseUrl: appConfigProvider.config.baseUrl,
+			clientId: 'appid1',
 	      clientSecret: 'secret', // optional
 	      grantPath: 'oauth/access_token'
-	    });
+	  });
 
-	    OAuthTokenProvider.configure({
-	    	name: 'token',
-	    	options: {
-	    		secure: false
-	    	}
-	    })
-}]);
+		OAuthTokenProvider.configure({
+			name: 'token',
+			options: {
+				secure: false
+			}
+		})
+	}]);
 
 app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
- function($rootScope, $location, $http, $modal, httpBuffer, OAuth) {
-	$rootScope.$on('$routeChangeStart', function(event,next,current){
+	function($rootScope, $location, $http, $modal, httpBuffer, OAuth) {
+		$rootScope.$on('$routeChangeStart', function(event,next,current){
 
-		if(next.$$route.originalPath != '/login'){
-			if(!OAuth.isAuthenticated()){
-				$location.path('login');
+			if(next.$$route.originalPath != '/login'){
+				if(!OAuth.isAuthenticated()){
+					$location.path('login');
+				}
 			}
-		}
-	});
-    $rootScope.$on('oauth:error', function(event, data) {
+		});
+		$rootScope.$on('oauth:error', function(event, data) {
       // Ignore `invalid_grant` error - should be catched on `LoginController`.
       if ('invalid_grant' === data.rejection.data.error) {
-        return;
+      	return;
       }
 
       /*
@@ -225,17 +228,17 @@ app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
 
       	httpBuffer.append(data.rejection.config, data.deferred);
       	if(!$rootScope.loginModalOpened){
-	      	var modalInstance = $modal.open({
-	      		templateUrl: 'build/views/templates/loginModal.html',
-	      		controller: 'LoginModalController'
-	      	});
-	      	$rootScope.loginModalOpened = true;
+      		var modalInstance = $modal.open({
+      			templateUrl: 'build/views/templates/loginModal.html',
+      			controller: 'LoginModalController'
+      		});
+      		$rootScope.loginModalOpened = true;
 
-	    }
-	    return;
+      	}
+      	return;
       }
 
       // Redirect to `/login` with the `error_reason`.
       return $location.path('login');
-    });
-  }]);
+  });
+	}]);
