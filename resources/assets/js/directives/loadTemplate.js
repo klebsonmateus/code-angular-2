@@ -5,12 +5,19 @@ angular.module('app.directives')
     return {
     	restrict: 'E',
     	link: function(scope, element, attr){
-            scope.$on('routeChangeStart', function(event,next,current) {
+            scope.$on('$routeChangeStart', function(event,next,current) {
                 if(OAuth.isAuthenticated()){
-                    $http.get(attr.url).then(function(response){
-                        element.html(response.data);
-                        $compile(element.contents())(scope);
-                    });
+                    if(next.$$route.originalPath != '/login'){
+                        $http.get(attr.url).then(function(response){
+                            element.html(response.data);
+                            $compile(element.contents())(scope);
+                        });
+                    }else{
+                        resetTemplate();
+                    }
+                }
+                function resetTemplate(){
+                    element.html("");
                 }
             });
             

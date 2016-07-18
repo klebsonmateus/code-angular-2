@@ -27,9 +27,7 @@
 </head>
 <body>
 
-	<load-template url="build/views/templates/menu.html"></load-template>
-	
-	<div ng-include="'build/views/templates/menu.html'"></div>
+	<load-template url="/build/views/templates/menu.html"></load-template>
 	
 
 	<div ng-view></div>
