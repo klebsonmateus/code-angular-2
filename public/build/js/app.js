@@ -3,7 +3,7 @@ var app = angular.module('app',[
 	'app.services', 'app.filters', 'app.directives',
 	'ui.bootstrap.typeahead', 'ui.bootstrap.datepicker', 
 	'ui.bootstrap.tpls', 'ui.bootstrap.modal', 'ngFileUpload', 'http-auth-interceptor',
-	'angularUtils.directives.dirPagination', 'ui.bootstrap.dropdown'
+	'angularUtils.directives.dirPagination', 'ui.bootstrap.dropdown','ui.bootstrap.tabs'
 	]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
@@ -119,19 +119,28 @@ app.config([
 		})
 		.when('/projects',{
 			templateUrl: 'build/views/project/list.html',
-			controller: 'ProjectListController'
+			controller: 'ProjectListController',
+			title: 'Projects'
+		})
+		.when('/projects/dashboard',{
+			templateUrl: 'build/views/project/dashboard.html',
+			controller: 'ProjectDashboardController',
+			title: 'Projects'
 		})
 		.when('/project/new',{
 			templateUrl: 'build/views/project/new.html',
-			controller: 'ProjectNewController'
+			controller: 'ProjectNewController',
+			title: 'Projects'
 		})
 		.when('/project/:id/edit',{
 			templateUrl: 'build/views/project/edit.html',
-			controller: 'ProjectEditController'
+			controller: 'ProjectEditController',
+			title: 'Projects'
 		})
 		.when('/project/:id/remove',{
 			templateUrl: 'build/views/project/remove.html',
-			controller: 'ProjectRemoveController'
+			controller: 'ProjectRemoveController',
+			title: 'Projects'
 		})
 		.when('/project/:id/notes',{
 			templateUrl: 'build/views/project-note/list.html',
