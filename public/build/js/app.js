@@ -94,7 +94,7 @@ app.config([
 		})
 		.when('/clients',{
 			templateUrl: 'build/views/client/list.html',
-			controller: 'ClientListController',
+			controller: 'ClientDashboardController',
 			title: 'Clients'
 		})
 		.when('/clients/dashboard',{

@@ -38,16 +38,15 @@ class ClientController extends Controller
     public function index(Request $request)
     {
 
-        $limit = $request->query->get('limit',15);
-        return $this->repository->paginate($limit);
-        /*
+        
+        
         try{
             $limit = $request->query->get('limit',15);
             return $this->repository->paginate($limit);
         }catch(\Exception $e){
             return $this->erroMsgm('Ocorreu um erro ao listar os clientes.');
         }
-        */
+        
     }
 
     /**
