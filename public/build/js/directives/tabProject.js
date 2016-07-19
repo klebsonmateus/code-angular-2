@@ -7,8 +7,10 @@ angular.module('app.directives')
 						$(element).find('a').click(function(){
 							var tabContent = $(element).parent().find('.tab-content'),
 								a = $(this);
+							$(element).find('.active').removeClass('active');
 							tabContent.find('.active').removeClass('active');
 							tabContent.find("[id="+ a.attr('aria-controls')+"]").addClass('active');
+							a.addClass('active');
 						});
 				},
 			};
