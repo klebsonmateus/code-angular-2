@@ -88,50 +88,11 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="tarefas">
                     <div class="task-list">
-                        <h6 class="task-list-title">Requirements:</h6>
                         <ul class="task-list-body">
-                            <li>
+                            <li ng-repeat="o in project.tasks.data">
                                 <label>
                                     <input type="checkbox" name="" id=""/>
-                                    Call Joan to discuss existing requirements
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="" id=""/>
-                                    Call Joan to discuss existing requirements
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="" id=""/>
-                                    Call Joan to discuss existing requirements
-                                </label>
-                            </li>
-                        </ul>
-
-                        <h6 class="task-list-title">Development:</h6>
-                        <ul class="task-list-body">
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="" id=""/>
-                                    Call Joan to discuss existing requirements
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="" id=""/>
-                                    Call Joan to discuss existing requirements
-                                </label>
-                            </li>
-                        </ul>
-
-                        <h6 class="task-list-title">Design:</h6>
-                        <ul class="task-list-body">
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="" id=""/>
-                                    Call Joan to discuss existing requirements
+                                    {{o.name}}
                                 </label>
                             </li>
                         </ul>
@@ -139,47 +100,11 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="arquivos">
                     <div class="files-list-blocks">
-                        <a href="">
+                    <project-file-download
+                        id-project="{{o.project_id}}" id-file="{{o.id}}" ng-repeat="o in project.files.data" >
+                    </project-file-download>   
+                        <a ng-href="">
                             <img src="build/images/icons/ico-ai.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-css.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-doc.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-eps.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-flash.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-html.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-jpg.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-mp3.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-mp4.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-pdf.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-php.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-png.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-txt.png" alt="" />
-                        </a>
-                        <a href="">
-                            <img src="build/images/icons/ico-xml.png" alt="" />
                         </a>
                     </div>
                 </div>
