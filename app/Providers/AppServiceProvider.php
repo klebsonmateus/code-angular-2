@@ -5,6 +5,7 @@ namespace CodeProject\Providers;
 use CodeProject\Entities\ProjectTask;
 use CodeProject\Events\TaskWasIncluded;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
