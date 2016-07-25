@@ -7,6 +7,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 
 class TaskWasIncluded extends Event implements ShouldBroadcast{
+	
 	use SerializesModels;
 
 	public $task;
