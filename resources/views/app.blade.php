@@ -129,7 +129,7 @@
 	<script type="text/javascript">
 	var socket = new Pusher('4dc72542a9176c48e576');
 	var channel = socket.subscribe('user.1');
-	channel.bind('CodeProject\\Events\\TasckWasIncluded',
+	channel.bind('CodeProject\\Events\\TaskWasIncluded',
 	  function(data) {
 	    console.log(data);
 	  }

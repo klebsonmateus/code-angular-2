@@ -13,7 +13,7 @@
         "lucadegasperi/oauth2-server-laravel": "5.1.*",
         "league/fractal": "^0.13.0",
         "bestmomo/scafold": "dev-master",
-        "pusher/pusher-php-server": "~2.0"
+        "pusher/pusher-php-server": "2.2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
