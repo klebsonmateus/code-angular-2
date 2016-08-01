@@ -219,8 +219,10 @@ app.config([
 		})
 	}]);
 
-app.run(['$rootScope', '$location', '$http','$modal', '$cookies', '$pusher', 'httpBuffer', 'OAuth','appConfig',
-	function($rootScope, $location, $http, $modal, $cookies, $pusher, httpBuffer, OAuth, appConfig) {
+app.run(['$rootScope', '$location', '$http','$modal', 
+	'$cookies', '$pusher', 'httpBuffer', 'OAuth','appConfig','Notification',
+	function($rootScope, $location, $http, $modal, 
+		$cookies, $pusher, httpBuffer, OAuth, appConfig, Notification) {
 
 		$rootScope.$on('pusher-build', function(event, data){
 			if(data.next.$$route.originalPath != '/login') {
@@ -231,9 +233,10 @@ app.run(['$rootScope', '$location', '$http','$modal', '$cookies', '$pusher', 'ht
 						var channel = pusher.subscribe('user.'+$cookies.getObject('user').id);
 						channel.bind('CodeProject\\Events\\TaskWasIncluded',
 							function(data) {
-								console.log(data);
+								var name = data.task.name;
+								Notification.success('Tarefa '+name+' foi incluída!');
 							}
-							);
+						);
 					}
 				}
 			}
