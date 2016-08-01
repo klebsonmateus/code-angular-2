@@ -3,7 +3,7 @@ var app = angular.module('app',[
 	'app.services', 'app.filters', 'app.directives',
 	'ui.bootstrap.typeahead', 'ui.bootstrap.datepicker', 
 	'ui.bootstrap.tpls', 'ui.bootstrap.modal', 'ngFileUpload', 'http-auth-interceptor',
-	'angularUtils.directives.dirPagination', 'ui.bootstrap.dropdown','pusher-angular'
+	'angularUtils.directives.dirPagination', 'ui.bootstrap.dropdown','pusher-angular','ui-notification'
 	]);
 
 angular.module('app.controllers', ['ngMessages', 'angular-oauth2']);
