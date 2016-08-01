@@ -219,28 +219,33 @@ app.config([
 		})
 	}]);
 
-app.run(['$rootScope', '$location', '$http','$modal', '$cookies', '$pusher', 'httpBuffer', 'OAuth','appConfig'
+app.run(['$rootScope', '$location', '$http','$modal', '$cookies', '$pusher', 'httpBuffer', 'OAuth','appConfig',
 	function($rootScope, $location, $http, $modal, $cookies, $pusher, httpBuffer, OAuth, appConfig) {
 
 		$rootScope.$on('pusher-build', function(event, data){
 			if(data.next.$$route.originalPath != '/login') {
 				if(OAuth.isAuthenticated()){
 					if(!window.client){
-						windows.client = new Pusher(appConfig.pusherKey);
+						window.client = new Pusher(appConfig.pusherKey);
 						var pusher = $pusher(window.client);
 						var channel = pusher.subscribe('user.'+$cookies.getObject('user').id);
 						channel.bind('CodeProject\\Events\\TaskWasIncluded',
 							function(data) {
 								console.log(data);
 							}
-						);
+							);
 					}
 				}
 			}
 		});
 
 		$rootScope.$on('pusher-destroy', function(event, data){
-			
+			if(data.next.$$route.originalPath == '/login') {
+				if(window.client) {
+					window.client.disconnect();
+					window.client = null;
+				}
+			}
 		});
 
 		$rootScope.$on('$routeChangeStart', function(event,next,current){
