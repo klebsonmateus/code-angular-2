@@ -15,6 +15,7 @@ app.provider('appConfig',
 	['$httpParamSerializerProvider',function($httpParamSerializerProvider){
 		var config = {
 			baseUrl: 'http://localhost:8000',
+			pusherKey:'4dc72542a9176c48e576',
 			project: {
 				status: [
 				{value: 1, label: 'Não iniciado'},
@@ -218,8 +219,30 @@ app.config([
 		})
 	}]);
 
-app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
-	function($rootScope, $location, $http, $modal, httpBuffer, OAuth) {
+app.run(['$rootScope', '$location', '$http','$modal', '$cookies', '$pusher', 'httpBuffer', 'OAuth','appConfig'
+	function($rootScope, $location, $http, $modal, $cookies, $pusher, httpBuffer, OAuth, appConfig) {
+
+		$rootScope.$on('pusher-build', function(event, data){
+			if(data.next.$$route.originalPath != '/login') {
+				if(OAuth.isAuthenticated()){
+					if(!window.client){
+						windows.client = new Pusher(appConfig.pusherKey);
+						var pusher = $pusher(window.client);
+						var channel = pusher.subscribe('user.'+$cookies.getObject('user').id);
+						channel.bind('CodeProject\\Events\\TaskWasIncluded',
+							function(data) {
+								console.log(data);
+							}
+						);
+					}
+				}
+			}
+		});
+
+		$rootScope.$on('pusher-destroy', function(event, data){
+			
+		});
+
 		$rootScope.$on('$routeChangeStart', function(event,next,current){
 
 			if(next.$$route.originalPath != '/login'){
@@ -227,6 +250,8 @@ app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
 					$location.path('login');
 				}
 			}
+			$rootScope.$emit('pusher-build',{next: next});
+			$rootScope.$emit('pusher-destroy',{next: next});
 		});
 
 		$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
@@ -239,7 +264,7 @@ app.run(['$rootScope', '$location', '$http','$modal', 'httpBuffer', 'OAuth',
       	return;
       }
 
-     
+
 
       // Refresh token when a `invalid_token` error occurs.
       if ('access_denied' === data.rejection.data.error) {
