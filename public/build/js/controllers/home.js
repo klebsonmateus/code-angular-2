@@ -10,7 +10,7 @@ angular.module('app.controllers')
 			}
 			$timeout(function(){
 				$scope.tasks.unshift(data.task);
-			},300);
+			},1000);
 			
 		}
 	);
