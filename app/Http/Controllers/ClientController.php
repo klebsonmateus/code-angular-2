@@ -71,6 +71,8 @@ class ClientController extends Controller
         catch(\Exception $e){
             return $this->erroMsgm('Ocorreu um erro ao cadastrar o cliente.');
         }
+
+        
     }
 
     /**
