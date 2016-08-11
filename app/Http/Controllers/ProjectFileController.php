@@ -5,6 +5,7 @@ use CodeProject\Repositories\ProjectFileRepository;
 use CodeProject\Services\ProjectFileService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\FileSystem\Factory;
 use LucaDegasperi\OAuth2Server\Exceptions\NoActiveAccessTokenException;
 class ProjectFileController extends Controller
 {
@@ -16,10 +17,18 @@ class ProjectFileController extends Controller
      * @var ProjectFileService
      */
     private $service;
-    public function __construct(ProjectFileRepository $repository, ProjectFileService $service)
+
+
+    /**
+     * @var \Illuminate\Contracts\FileSystem\Factory
+     */
+    private $storage;
+
+    public function __construct(ProjectFileRepository $repository, ProjectFileService $service, Factory $storage)
     {
         $this->repository = $repository;
         $this->service = $service;
+        $this->storage = $storage;
     }
     /**
      * Display a listing of the resource.
@@ -71,13 +80,15 @@ class ProjectFileController extends Controller
     }
     public function showFile($projectId, $id)
     {
+        $model = $this->repository->skipPresenter()->find($id);
         $filePath = $this->service->getFilePath($id);
         $fileContent = file_get_contents($filePath);
         $file64 = base64_encode($fileContent);
         return [
         'file' => $file64,
         'size' => filesize($filePath),
-        'name' => $this->service->getFileName($id)
+        'name' => $this->service->getFileName($id),
+        'mime_type' => $this->storage->mimeType($model->getFileName())
         ];
     }
     /**
